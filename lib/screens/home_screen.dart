@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
+import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
+import 'package:flutter_database_sql/widgets/notes_display.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,64 +10,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String title;
-  String content;
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    Future.delayed(Duration.zero).then((_) async {
-      await Provider.of<Notes>(context, listen: false).getNotes();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final notes = Provider.of<Notes>(context, listen: false);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          var result = await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                return SimpleDialog(
+                  title: Text('Add Note'),
+                  children: [AddNote()],
+                );
+              });
+          if (result) {
+            setState(() {});
+          }
+        },
+        child: Icon(Icons.add),
+      ),
       appBar: AppBar(
         title: Text('NotesApp'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(hintText: 'Title'),
-            onChanged: (value) {
-              title = value;
-              print(title);
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: 'Content'),
-            onChanged: (value) {
-              content = value;
-            },
-          ),
-          FlatButton(
-            onPressed: () async {
-              await Provider.of<Notes>(context, listen: false)
-                  .addNote(title, content);
-            },
-            child: Text('Save Note'),
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: notes.getNotes(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return snapshot.connectionState == ConnectionState.done
-                    ? ListView.builder(
-                        itemCount: notes.notesList.length,
-                        itemBuilder: (context, i) => Text(
-                            '${notes.notesList[i].title} ${notes.notesList[i].content}'))
-                    : Center(
-                        child: CircularProgressIndicator(),
-                      );
-              },
-            ),
-          ),
-        ],
-      ),
+      body: NotesDisplay(),
     );
   }
 }

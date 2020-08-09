@@ -10,6 +10,7 @@ class Notes with ChangeNotifier {
         id: DateTime.now().toIso8601String(), title: title, content: content);
     await DBHelper.insertNote(note);
     print('Note added with id:${note.id}');
+    await getNotes();
   }
 
   List<Note> get notesList {
