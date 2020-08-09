@@ -26,6 +26,11 @@ class Notes with ChangeNotifier {
     return [..._notesList];
   }
 
+  Future<void> deleteNote(String id) async {
+    await DBHelper.deleteNoteFromDb(id);
+//    getNotes();
+  }
+
   Future<void> getNotes() async {
     List<Note> notesFromDatabase = await DBHelper.notes();
     _notesList = notesFromDatabase;

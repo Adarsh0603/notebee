@@ -27,7 +27,7 @@ class _NotesDisplayState extends State<NotesDisplay> {
     }
   }
 
-  void deleteNote() {
+  void deleteNote() async {
     setState(() {});
   }
 

@@ -28,8 +28,8 @@ class DBHelper {
             content: noteMaps[i]['content']));
   }
 
-  static Future<void> deleteNote(String id) async {
+  static Future<void> deleteNoteFromDb(String id) async {
     final db = await DBHelper.database();
-    await db.delete('notes', where: 'id=?', whereArgs: [id]);
+    await db.delete('notes', where: 'id = ?', whereArgs: [id]);
   }
 }
