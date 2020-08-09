@@ -28,6 +28,7 @@ class _NotesDisplayState extends State<NotesDisplay> {
   }
 
   void deleteNote() async {
+    await notes.getNotes();
     setState(() {});
   }
 

@@ -23,12 +23,11 @@ class Notes with ChangeNotifier {
   }
 
   List<Note> get notesList {
-    return [..._notesList];
+    return [..._notesList].reversed.toList();
   }
 
   Future<void> deleteNote(String id) async {
     await DBHelper.deleteNoteFromDb(id);
-//    getNotes();
   }
 
   Future<void> getNotes() async {
