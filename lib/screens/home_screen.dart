@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_database_sql/providers/notes_provider.dart';
 import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
 import 'package:flutter_database_sql/widgets/notes_display.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

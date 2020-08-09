@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
+import 'package:flutter_database_sql/widgets/note_widget.dart';
 import 'package:provider/provider.dart';
 
 class NotesDisplay extends StatefulWidget {
@@ -26,6 +27,10 @@ class _NotesDisplayState extends State<NotesDisplay> {
     }
   }
 
+  void deleteNote() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -35,8 +40,8 @@ class _NotesDisplayState extends State<NotesDisplay> {
         return snapshot.connectionState == ConnectionState.done
             ? ListView.builder(
                 itemCount: notes.notesList.length,
-                itemBuilder: (context, i) => Text(
-                    '${notes.notesList[i].title} ${notes.notesList[i].content}'))
+                itemBuilder: (context, i) =>
+                    NoteWidget(notes.notesList[i], deleteNote))
             : Center(
                 child: CircularProgressIndicator(),
               );

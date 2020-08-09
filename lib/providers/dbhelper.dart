@@ -27,4 +27,9 @@ class DBHelper {
             title: noteMaps[i]['title'],
             content: noteMaps[i]['content']));
   }
+
+  static Future<void> deleteNote(String id) async {
+    final db = await DBHelper.database();
+    await db.delete('notes', where: 'id=?', whereArgs: [id]);
+  }
 }
