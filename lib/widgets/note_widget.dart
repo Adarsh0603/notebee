@@ -7,16 +7,14 @@ import 'package:provider/provider.dart';
 
 class NoteWidget extends StatelessWidget {
   final Note note;
-  final VoidCallback delete;
 
-  NoteWidget(this.note, this.delete);
+  NoteWidget(this.note);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () async {
         await Provider.of<Notes>(context, listen: false).deleteNote(note.id);
-        delete();
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),

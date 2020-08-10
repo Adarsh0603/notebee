@@ -9,26 +9,6 @@ class NotesDisplay extends StatefulWidget {
 }
 
 class _NotesDisplayState extends State<NotesDisplay> {
-//  var notes;
-  bool isInit = true;
-
-//  @override
-//  void didChangeDependencies() {
-//    // TODO: implement didChangeDependencies
-//    super.didChangeDependencies();
-//    if (isInit) {
-//      notes = Provider.of<Notes>(context, listen: false);
-//      Future.delayed(Duration.zero).then((_) async {
-//        await notes.getNotes();
-//      });
-//    }
-//  }
-
-  void deleteNote() async {
-//    await notes.getNotes();
-//    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +22,7 @@ class _NotesDisplayState extends State<NotesDisplay> {
                   ? ListView.builder(
                       itemCount: notes.notesList.length,
                       itemBuilder: (context, i) =>
-                          NoteWidget(notes.notesList[i], deleteNote))
+                          NoteWidget(notes.notesList[i]))
                   : Center(
                       child: CircularProgressIndicator(),
                     );

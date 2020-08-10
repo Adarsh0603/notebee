@@ -17,15 +17,16 @@ class DBHelper {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  static Future<void> updateNote(Note note) async {
+    final db = await DBHelper.database();
+
+    await db
+        .update('notes', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
+  }
+
   static Future<List<Map<String, dynamic>>> notes() async {
     final db = await DBHelper.database();
     return db.query('notes');
-//    return List.generate(
-//        noteMaps.length,
-//        (i) => Note(
-//            id: noteMaps[i]['id'],
-//            title: noteMaps[i]['title'],
-//            content: noteMaps[i]['content']));
   }
 
   static Future<void> deleteNoteFromDb(String id) async {

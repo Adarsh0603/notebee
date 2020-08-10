@@ -21,7 +21,16 @@ class Notes with ChangeNotifier {
   Future<void> deleteNote(String id) async {
     _notesList.removeWhere((element) => element.id == id);
     notifyListeners();
+
     await DBHelper.deleteNoteFromDb(id);
+  }
+
+  Future<void> updateNote(Note note) async {
+    int updateIndex = _notesList.indexWhere((element) => element.id == note.id);
+
+    _notesList[updateIndex] = note;
+    notifyListeners();
+    await DBHelper.updateNote(note);
   }
 
   Future<void> getNotes() async {
