@@ -20,9 +20,6 @@ class _NotesDisplayState extends State<NotesDisplay> {
       notes = Provider.of<Notes>(context, listen: false);
       Future.delayed(Duration.zero).then((_) async {
         await notes.getNotes();
-        setState(() {
-          isInit = false;
-        });
       });
     }
   }

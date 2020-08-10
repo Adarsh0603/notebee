@@ -4,20 +4,12 @@ import 'package:flutter_database_sql/providers/dbhelper.dart';
 
 class Notes with ChangeNotifier {
   List<Note> _notesList = [];
-  bool _isUpdated = false;
-
-  void setIsUpdated(bool value) {
-    _isUpdated = true;
-    notifyListeners();
-  }
-
-  bool get isUpdated {
-    return _isUpdated;
-  }
 
   Future<void> addNote(String title, String content) async {
     Note note = Note(
         id: DateTime.now().toIso8601String(), title: title, content: content);
+    _notesList.add(note);
+    notifyListeners();
 
     await DBHelper.insertNote(note);
   }
@@ -27,6 +19,8 @@ class Notes with ChangeNotifier {
   }
 
   Future<void> deleteNote(String id) async {
+    _notesList.removeWhere((element) => element.id == id);
+    notifyListeners();
     await DBHelper.deleteNoteFromDb(id);
   }
 

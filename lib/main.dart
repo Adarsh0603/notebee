@@ -10,7 +10,7 @@ void main() {
 class QuickNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Notes>(
+    return ChangeNotifierProvider(
       create: (BuildContext context) => Notes(),
       child: MaterialApp(
         home: HomeScreen(),

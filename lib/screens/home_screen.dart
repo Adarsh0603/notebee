@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_database_sql/models/note.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
 import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
 import 'package:flutter_database_sql/widgets/notes_display.dart';

@@ -74,7 +74,6 @@ class _AddNoteState extends State<AddNote> {
                   },
                 ),
               ),
-////                await notes.addNote(title, content);
             ],
           ),
         ),
