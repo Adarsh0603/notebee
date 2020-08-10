@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/constants.dart';
-import 'package:flutter_database_sql/providers/notes_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_database_sql/models/note.dart';
 
 class AddNote extends StatefulWidget {
+  final Note note;
+  AddNote({this.note});
+
   @override
   _AddNoteState createState() => _AddNoteState();
 }
@@ -11,12 +13,17 @@ class AddNote extends StatefulWidget {
 class _AddNoteState extends State<AddNote> {
   String title;
   String content;
-  Future<bool> saveNote() {
+  Future<bool> saveNote() async {
     Navigator.of(context).pop({'title': title, 'content': content});
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.note != null) {
+      title = widget.note.title;
+      content = widget.note.content;
+    }
     return WillPopScope(
       onWillPop: saveNote,
       child: Container(
@@ -41,7 +48,8 @@ class _AddNoteState extends State<AddNote> {
                   ),
                   SizedBox(width: 10),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      initialValue: title,
                       style: kAddNoteTitleTextStyle,
                       decoration: InputDecoration(
                         hintText: 'taskname...',
@@ -59,7 +67,8 @@ class _AddNoteState extends State<AddNote> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: content,
                   maxLines:
                       (MediaQuery.of(context).size.height * 0.017).toInt(),
                   decoration: InputDecoration(

@@ -9,25 +9,38 @@ class NotesDisplay extends StatefulWidget {
 }
 
 class _NotesDisplayState extends State<NotesDisplay> {
+  bool isInit = true;
+  @override
+  void didChangeDependencies() {
+    Future.delayed(Duration.zero).then((_) async {
+      await Provider.of<Notes>(context, listen: false).getNotes();
+      setState(() {
+        isInit = false;
+      });
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final notes = Provider.of<Notes>(context, listen: false);
     return Container(
-      child: Consumer<Notes>(
-        builder: (BuildContext context, notes, _) {
-          return FutureBuilder(
-            future: notes.getNotes(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              print(snapshot.connectionState);
-              return snapshot.connectionState == ConnectionState.done
-                  ? ListView.builder(
-                      itemCount: notes.notesList.length,
-                      itemBuilder: (context, i) =>
-                          NoteWidget(notes.notesList[i]))
-                  : Center(
-                      child: CircularProgressIndicator(),
-                    );
-            },
-          );
+      child: FutureBuilder(
+        future: notes.getNotes(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          print(notes.notesList.length);
+          return snapshot.connectionState == ConnectionState.done
+              ? Consumer<Notes>(
+                  builder: (buildContext, noteData, _) {
+                    return ListView.builder(
+                        itemCount: noteData.notesList.length,
+                        itemBuilder: (context, i) =>
+                            NoteWidget(noteData.notesList[i]));
+                  },
+                )
+              : Center(
+                  child: CircularProgressIndicator(),
+                );
         },
       ),
     );
