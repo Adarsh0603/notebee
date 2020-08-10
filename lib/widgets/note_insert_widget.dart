@@ -59,7 +59,6 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       onChanged: (value) {
                         title = value;
-                        print(title);
                       },
                     ),
                   ),
