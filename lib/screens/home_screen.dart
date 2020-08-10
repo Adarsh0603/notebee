@@ -34,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
           if (dataMap['title'] != null && dataMap['content'] != null) {
             await Provider.of<Notes>(context, listen: false)
                 .addNote(dataMap['title'], dataMap['content']);
-            setState(() {});
           }
         },
         child: Icon(Icons.add),

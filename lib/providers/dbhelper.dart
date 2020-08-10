@@ -17,15 +17,15 @@ class DBHelper {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  static Future<List<Note>> notes() async {
+  static Future<List<Map<String, dynamic>>> notes() async {
     final db = await DBHelper.database();
-    final List<Map<String, dynamic>> noteMaps = await db.query('notes');
-    return List.generate(
-        noteMaps.length,
-        (i) => Note(
-            id: noteMaps[i]['id'],
-            title: noteMaps[i]['title'],
-            content: noteMaps[i]['content']));
+    return db.query('notes');
+//    return List.generate(
+//        noteMaps.length,
+//        (i) => Note(
+//            id: noteMaps[i]['id'],
+//            title: noteMaps[i]['title'],
+//            content: noteMaps[i]['content']));
   }
 
   static Future<void> deleteNoteFromDb(String id) async {

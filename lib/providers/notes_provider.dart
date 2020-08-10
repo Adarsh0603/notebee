@@ -25,8 +25,9 @@ class Notes with ChangeNotifier {
   }
 
   Future<void> getNotes() async {
-    List<Note> notesFromDatabase = await DBHelper.notes();
-    _notesList = notesFromDatabase;
+    List<Map<String, dynamic>> notesFromDatabase = await DBHelper.notes();
+    _notesList = notesFromDatabase.map((item) =>
+        Note(id: item['id'], title: item['title'], content: item['content']));
     notifyListeners();
   }
 }
