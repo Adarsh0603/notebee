@@ -17,6 +17,12 @@ class Labels with ChangeNotifier {
     await getLabels();
   }
 
+  Future<void> deleteLabel(String labelId) async {
+    _labelsList.removeWhere((element) => element.id == labelId);
+    notifyListeners();
+    await DBHelper.deleteDataFromDb('labels', labelId);
+  }
+
   Future<void> getLabels() async {
     List<Map<String, dynamic>> labelsFromDatabase =
         await DBHelper.getDataFromTable('labels');
