@@ -1,5 +1,3 @@
-import 'label.dart';
-
 class Note {
   final String id;
   final String title;

@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../models/note.dart';
 
 class DBHelper {
   static Future<Database> database() async {
@@ -8,9 +7,9 @@ class DBHelper {
         onCreate: (db, version) async {
       await db.execute(
           "CREATE TABLE notes(id TEXT PRIMARY KEY, title TEXT, content TEXT)");
-      print('notes createed');
+      print('notes created');
       await db.execute(
-          "CREATE TABLE labels(id TEXT PRIMARY KEY, label TEXT, color TEXT)");
+          "CREATE TABLE labels(id TEXT PRIMARY KEY, label TEXT, color INTEGER)");
       print('labels created');
     }, version: 1);
   }

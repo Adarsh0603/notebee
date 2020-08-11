@@ -1,8 +1,16 @@
 import 'dart:ui';
 
 class Label {
+  final String id;
   final String label;
-  final Color color;
+  final int colorValue;
 
-  Label(this.label, this.color);
+  Label(this.id, this.label, this.colorValue);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'label': label,
+      'color': colorValue,
+    };
+  }
 }
