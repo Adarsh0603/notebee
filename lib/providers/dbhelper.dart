@@ -5,32 +5,36 @@ import '../models/note.dart';
 class DBHelper {
   static Future<Database> database() async {
     return openDatabase(join(await getDatabasesPath(), 'notes.db'),
-        onCreate: (db, version) {
-      return db.execute(
+        onCreate: (db, version) async {
+      await db.execute(
           "CREATE TABLE notes(id TEXT PRIMARY KEY, title TEXT, content TEXT)");
+      print('notes createed');
+      await db.execute(
+          "CREATE TABLE labels(id TEXT PRIMARY KEY, label TEXT, color TEXT)");
+      print('labels created');
     }, version: 1);
   }
 
-  static Future<void> insertNote(Note note) async {
+  static Future<void> insert(String tableName, Map data) async {
     final db = await DBHelper.database();
-    await db.insert('notes', note.toMap(),
+    await db.insert(tableName, data,
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  static Future<void> updateNote(Note note) async {
+  static Future<void> update(String tableName, Map data) async {
     final db = await DBHelper.database();
 
-    await db
-        .update('notes', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
+    await db.update(tableName, data, where: 'id = ?', whereArgs: [data['id']]);
   }
 
-  static Future<List<Map<String, dynamic>>> notes() async {
+  static Future<List<Map<String, dynamic>>> getDataFromTable(
+      String tableName) async {
     final db = await DBHelper.database();
-    return db.query('notes');
+    return db.query(tableName);
   }
 
-  static Future<void> deleteNoteFromDb(String id) async {
+  static Future<void> deleteDataFromDb(String tableName, String id) async {
     final db = await DBHelper.database();
-    await db.delete('notes', where: 'id = ?', whereArgs: [id]);
+    await db.delete(tableName, where: 'id = ?', whereArgs: [id]);
   }
 }

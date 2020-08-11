@@ -11,7 +11,7 @@ class Notes with ChangeNotifier {
     _notesList.add(note);
     notifyListeners();
 
-    await DBHelper.insertNote(note);
+    await DBHelper.insert('notes', note.toMap());
   }
 
   List<Note> get notesList {
@@ -22,7 +22,7 @@ class Notes with ChangeNotifier {
     _notesList.removeWhere((element) => element.id == id);
     notifyListeners();
 
-    await DBHelper.deleteNoteFromDb(id);
+    await DBHelper.deleteDataFromDb('notes', id);
   }
 
   Future<void> updateNote(Note note) async {
@@ -31,11 +31,12 @@ class Notes with ChangeNotifier {
     _notesList[updateIndex] = note;
     notifyListeners();
 
-    await DBHelper.updateNote(note);
+    await DBHelper.update('notes', note.toMap());
   }
 
   Future<void> getNotes() async {
-    List<Map<String, dynamic>> notesFromDatabase = await DBHelper.notes();
+    List<Map<String, dynamic>> notesFromDatabase =
+        await DBHelper.getDataFromTable('notes');
     _notesList = notesFromDatabase
         .map((item) => Note(
             id: item['id'], title: item['title'], content: item['content']))

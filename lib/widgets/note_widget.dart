@@ -18,7 +18,7 @@ class NoteWidget extends StatefulWidget {
 }
 
 class _NoteWidgetState extends State<NoteWidget> {
-  bool open = true;
+  bool open = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
