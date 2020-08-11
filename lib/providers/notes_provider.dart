@@ -5,9 +5,12 @@ import 'package:flutter_database_sql/providers/dbhelper.dart';
 class Notes with ChangeNotifier {
   List<Note> _notesList = [];
 
-  Future<void> addNote(String title, String content) async {
+  Future<void> addNote(String title, String content, String labelId) async {
     Note note = Note(
-        id: DateTime.now().toIso8601String(), title: title, content: content);
+        id: DateTime.now().toIso8601String(),
+        title: title,
+        content: content,
+        labelId: labelId);
     _notesList.add(note);
     notifyListeners();
 
@@ -39,7 +42,10 @@ class Notes with ChangeNotifier {
         await DBHelper.getDataFromTable('notes');
     _notesList = notesFromDatabase
         .map((item) => Note(
-            id: item['id'], title: item['title'], content: item['content']))
+            id: item['id'],
+            title: item['title'],
+            content: item['content'],
+            labelId: item['labelId']))
         .toList();
     notifyListeners();
   }

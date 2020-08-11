@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/constants.dart';
+import 'package:flutter_database_sql/models/label.dart';
 import 'package:flutter_database_sql/models/note.dart';
+import 'package:flutter_database_sql/providers/label_provider.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
 import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +21,13 @@ class NoteWidget extends StatefulWidget {
 
 class _NoteWidgetState extends State<NoteWidget> {
   bool open = false;
+
   @override
   Widget build(BuildContext context) {
+    Label label = widget.note.labelId != 'default'
+        ? Provider.of<Labels>(context, listen: false)
+            .findLabelById(widget.note.labelId)
+        : Label('default', 'default', 0x000000);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -48,9 +55,11 @@ class _NoteWidgetState extends State<NoteWidget> {
         if (dataMap['title'] != widget.note.title ||
             dataMap['content'] != widget.note.content) {
           await Provider.of<Notes>(context, listen: false).updateNote(Note(
-              id: widget.note.id,
-              title: dataMap['title'],
-              content: dataMap['content']));
+            id: widget.note.id,
+            title: dataMap['title'],
+            content: dataMap['content'],
+            labelId: dataMap['labelId'],
+          ));
         }
       },
       child: Padding(
@@ -70,7 +79,11 @@ class _NoteWidgetState extends State<NoteWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(maxRadius: 6, backgroundColor: Colors.green),
+                    Icon(Icons.label,
+                        size: 20,
+                        color:
+                            Color(label == null ? 0x000000 : label.colorValue)
+                                .withOpacity(1)),
                     SizedBox(width: 8.0),
                     Text(widget.note.title, style: kNoteTitleTextStyle),
                     Spacer(),

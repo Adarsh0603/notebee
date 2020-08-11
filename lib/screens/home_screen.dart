@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_database_sql/providers/label_provider.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
 import 'package:flutter_database_sql/widgets/label_settings.dart';
 import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
@@ -14,6 +15,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void didChangeDependencies() {
+    Future.delayed(Duration.zero).then((_) async {
+      await Provider.of<Labels>(context, listen: false).getLabels();
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               });
           if (dataMap['title'] != null && dataMap['content'] != null) {
-            await Provider.of<Notes>(context, listen: false)
-                .addNote(dataMap['title'], dataMap['content']);
+            await Provider.of<Notes>(context, listen: false).addNote(
+                dataMap['title'], dataMap['content'], dataMap['labelId']);
           }
         },
         child: Icon(Icons.add),

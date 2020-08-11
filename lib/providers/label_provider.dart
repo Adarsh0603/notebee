@@ -13,8 +13,9 @@ class Labels with ChangeNotifier {
     Label newLabel =
         Label(DateTime.now().toIso8601String(), labelText, colorValue);
     _labelsList.add(newLabel);
+    print(newLabel.label);
+    notifyListeners();
     await DBHelper.insert('labels', newLabel.toMap());
-    await getLabels();
   }
 
   Future<void> deleteLabel(String labelId) async {
@@ -30,5 +31,10 @@ class Labels with ChangeNotifier {
         .map((label) => Label(label['id'], label['label'], label['color']))
         .toList();
     notifyListeners();
+  }
+
+  Label findLabelById(String id) {
+    return _labelsList.firstWhere((element) => element.id == id,
+        orElse: () => null);
   }
 }

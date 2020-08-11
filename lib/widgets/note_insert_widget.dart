@@ -17,10 +17,11 @@ class AddNote extends StatefulWidget {
 class _AddNoteState extends State<AddNote> {
   String title;
   String content;
-  String labelId;
+  String labelId = 'default';
   int labelColor = 0xffffff;
   Future<bool> saveNote() async {
-    Navigator.of(context).pop({'title': title, 'content': content});
+    Navigator.of(context)
+        .pop({'title': title, 'content': content, 'labelId': labelId});
     return true;
   }
 
@@ -48,8 +49,11 @@ class _AddNoteState extends State<AddNote> {
                       color: Colors.grey[400],
                     ),
                     onTap: () {
-                      Navigator.pop(
-                          context, {'title': title, 'content': content});
+                      Navigator.pop(context, {
+                        'title': title,
+                        'content': content,
+                        'labelId': labelId
+                      });
                     },
                   ),
                   SizedBox(width: 10),
