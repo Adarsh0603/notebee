@@ -23,7 +23,6 @@ class LabelSearchList extends StatelessWidget {
               angle: 90 * pi / 180,
               child: Icon(
                 Icons.label,
-                size: 20,
                 color: Color(labels.labels[i].colorValue).withOpacity(1),
               ),
             ),

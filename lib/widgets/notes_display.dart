@@ -12,7 +12,6 @@ class NotesDisplay extends StatelessWidget {
       child: FutureBuilder(
         future: notes.getNotes(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          print(notes.notesList.length);
           return snapshot.connectionState == ConnectionState.done
               ? Consumer<Notes>(
                   builder: (buildContext, noteData, _) {
@@ -25,10 +24,11 @@ class NotesDisplay extends StatelessWidget {
                                   width: 48,
                                   child: Image.asset('images/bee.png')),
                               SizedBox(height: 10),
-                              Text('Add some notes...',
+                              Text('no notes here',
                                   style: TextStyle(
+                                      color: Colors.grey[500],
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 12))
+                                      fontSize: 16))
                             ],
                           )
                         : ListView.builder(

@@ -7,6 +7,8 @@ import 'package:flutter_database_sql/widgets/app_title.dart';
 import 'package:flutter_database_sql/widgets/label_settings.dart';
 import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
 import 'package:flutter_database_sql/widgets/notes_display.dart';
+import 'package:flutter_database_sql/widgets/searchWidgets/all_label.dart';
+import 'package:flutter_database_sql/widgets/searchWidgets/labels_search_list.dart';
 import 'package:flutter_database_sql/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -75,10 +77,29 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SearchBar(),
           Expanded(child: NotesDisplay()),
-          Container(
-            width: double.infinity,
-            height: kFloatingActionButtonMargin * 3,
-            color: Colors.white,
+          Material(
+            elevation: 18,
+            child: Container(
+              height: kFloatingActionButtonMargin * 3,
+              color: Colors.white,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  width: MediaQuery.of(context).size.width -
+                      kFloatingActionButtonMargin * 4,
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      AllLabel(),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: LabelSearchList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           )
         ],
       )),

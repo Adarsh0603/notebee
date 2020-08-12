@@ -103,7 +103,7 @@ class _NoteWidgetState extends State<NoteWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Icon(Icons.label,
-                          size: 20,
+                          size: 15,
                           color:
                               Color(label == null ? 0x000000 : label.colorValue)
                                   .withOpacity(1)),

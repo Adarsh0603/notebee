@@ -49,8 +49,11 @@ class AddLabel extends StatelessWidget {
     return TextField(
         controller: labelTextController,
         textAlign: TextAlign.center,
-        decoration:
-            InputDecoration(hintText: 'ADD LABEL', border: InputBorder.none),
+        decoration: InputDecoration(
+            hintText: 'ADD LABEL',
+            hintStyle: TextStyle(
+                color: Colors.grey, fontWeight: FontWeight.w500, fontSize: 14),
+            border: InputBorder.none),
         onSubmitted: (value) async {
           await Provider.of<Labels>(context, listen: false)
               .addLabel(value, (Random().nextDouble() * 0xFFFFFF).toInt());

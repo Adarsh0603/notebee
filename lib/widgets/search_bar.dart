@@ -1,10 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_database_sql/providers/label_provider.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
-import 'package:flutter_database_sql/widgets/searchWidgets/all_label.dart';
-import 'package:flutter_database_sql/widgets/searchWidgets/labels_search_list.dart';
 import 'package:provider/provider.dart';
 
 class SearchBar extends StatelessWidget {
@@ -40,21 +35,6 @@ class SearchBar extends StatelessWidget {
               ),
             ),
             SizedBox(width: 10),
-            Expanded(
-                child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Colors.grey[300]),
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
-              child: Row(
-                children: [
-                  AllLabel(),
-                  Expanded(
-                    child: LabelSearchList(),
-                  ),
-                ],
-              ),
-            )),
           ],
         ),
       ),

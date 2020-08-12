@@ -13,6 +13,7 @@ class Notes with ChangeNotifier {
         content: content,
         labelId: labelId);
     _notesList.add(note);
+    allNotesList = [..._notesList];
     notifyListeners();
 
     await DBHelper.insert('notes', note.toMap());
@@ -69,6 +70,8 @@ class Notes with ChangeNotifier {
     if (labelId != 'all')
       _notesList =
           _notesList.where((element) => element.labelId == labelId).toList();
+    else
+      _notesList = allNotesList;
     notifyListeners();
   }
 }

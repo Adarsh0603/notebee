@@ -7,10 +7,8 @@ class DBHelper {
         onCreate: (db, version) async {
       await db.execute(
           "CREATE TABLE notes(id TEXT PRIMARY KEY, title TEXT, content TEXT,labelId TEXT)");
-      print('notes created');
       await db.execute(
           "CREATE TABLE labels(id TEXT PRIMARY KEY, label TEXT, color INTEGER)");
-      print('labels created');
     }, version: 1);
   }
 

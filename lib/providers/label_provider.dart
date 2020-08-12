@@ -13,7 +13,6 @@ class Labels with ChangeNotifier {
     Label newLabel =
         Label(DateTime.now().toIso8601String(), labelText, colorValue);
     _labelsList.add(newLabel);
-    print(newLabel.label);
     notifyListeners();
     await DBHelper.insert('labels', newLabel.toMap());
   }
