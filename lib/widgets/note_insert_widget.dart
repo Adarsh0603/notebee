@@ -19,6 +19,7 @@ class _AddNoteState extends State<AddNote> {
   String content;
   String labelId = 'default';
   int labelColor = 0xffffff;
+  bool labelNotChanged = true;
   Future<bool> saveNote() async {
     Navigator.of(context)
         .pop({'title': title, 'content': content, 'labelId': labelId});
@@ -30,6 +31,12 @@ class _AddNoteState extends State<AddNote> {
     if (widget.note != null) {
       title = widget.note.title;
       content = widget.note.content;
+      if (labelNotChanged) labelId = widget.note.labelId;
+      if (labelNotChanged) {
+        labelColor = Provider.of<Labels>(context, listen: false)
+            .findLabelById(labelId)
+            .colorValue;
+      }
     }
     return WillPopScope(
       onWillPop: saveNote,
@@ -96,6 +103,7 @@ class _AddNoteState extends State<AddNote> {
                         setState(() {
                           labelId = labels.labels[i].id;
                           labelColor = labels.labels[i].colorValue;
+                          labelNotChanged = false;
                         });
                         print(labelId);
                       },

@@ -53,7 +53,8 @@ class _NoteWidgetState extends State<NoteWidget> {
               );
             });
         if (dataMap['title'] != widget.note.title ||
-            dataMap['content'] != widget.note.content) {
+            dataMap['content'] != widget.note.content ||
+            dataMap['labelId'] != widget.note.labelId) {
           await Provider.of<Notes>(context, listen: false).updateNote(Note(
             id: widget.note.id,
             title: dataMap['title'],
