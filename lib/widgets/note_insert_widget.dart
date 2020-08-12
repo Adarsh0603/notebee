@@ -25,9 +25,16 @@ class _AddNoteState extends State<AddNote> {
   int labelColor = 0x000000;
   bool labelNotChanged = true;
   Future<bool> saveNote() async {
-    Navigator.of(context)
-        .pop({'title': title, 'content': content, 'labelId': labelId});
+    popWithDetails();
     return true;
+  }
+
+  void popWithDetails() {
+    Navigator.of(context).pop({
+      'title': title == null ? 'no title' : title,
+      'content': content == null ? 'add details' : content,
+      'labelId': labelId
+    });
   }
 
   @override
@@ -60,11 +67,7 @@ class _AddNoteState extends State<AddNote> {
                       color: Colors.grey[400],
                     ),
                     onTap: () {
-                      Navigator.pop(context, {
-                        'title': title,
-                        'content': content,
-                        'labelId': labelId
-                      });
+                      popWithDetails();
                     },
                   ),
                   SizedBox(width: 10),
@@ -77,11 +80,11 @@ class _AddNoteState extends State<AddNote> {
                             textInputAction: TextInputAction.next,
                             autofocus: widget.note != null ? false : true,
                             maxLines: 1,
-                            style: kAddNoteTitleTextStyle,
+                            style: kNoteTitleTextStyle,
                             decoration: InputDecoration(
                               hintText: 'taskname...',
                               border: InputBorder.none,
-                              hintStyle: kAddNoteTitleTextStyle.copyWith(
+                              hintStyle: kNoteTitleTextStyle.copyWith(
                                   color: Colors.grey[400]),
                             ),
                             onChanged: (value) {
@@ -106,7 +109,7 @@ class _AddNoteState extends State<AddNote> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      height: 30,
+                      height: 50,
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -132,7 +135,6 @@ class _AddNoteState extends State<AddNote> {
                                 angle: 90 * pi / 180,
                                 child: Icon(
                                   Icons.label,
-                                  size: 20,
                                   color: Color(labels.labels[i].colorValue)
                                       .withOpacity(1),
                                 ),
@@ -150,15 +152,9 @@ class _AddNoteState extends State<AddNote> {
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                 child: TextFormField(
                   focusNode: contentFocusNode,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.newline,
                   initialValue: content,
-                  onFieldSubmitted: (_) {
-                    Navigator.of(context).pop({
-                      'title': title,
-                      'content': content,
-                      'labelId': labelId
-                    });
-                  },
+                  style: kNoteContentTextStyle,
                   maxLines:
                       (MediaQuery.of(context).size.height * 0.013).toInt(),
                   decoration: InputDecoration(
@@ -169,7 +165,7 @@ class _AddNoteState extends State<AddNote> {
                           borderSide: BorderSide(color: Colors.grey[200]),
                           borderRadius: BorderRadius.all(Radius.circular(8.0))),
                       hintText: 'add details...',
-                      hintStyle: kAddDetailNoteDetailTextStyle.copyWith(
+                      hintStyle: kNoteContentTextStyle.copyWith(
                           color: Colors.grey[400])),
                   onChanged: (value) {
                     content = value;

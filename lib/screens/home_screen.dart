@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.amber,
         onPressed: () async {
@@ -74,6 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SearchBar(),
           Expanded(child: NotesDisplay()),
+          Container(
+            width: double.infinity,
+            height: kFloatingActionButtonMargin * 3,
+            color: Colors.white,
+          )
         ],
       )),
     );

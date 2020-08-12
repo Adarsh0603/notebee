@@ -64,7 +64,7 @@ class _NoteWidgetState extends State<NoteWidget> {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
         child: Dismissible(
           key: ValueKey(widget.note.id),
           direction: DismissDirection.endToStart,
@@ -129,7 +129,6 @@ class _NoteWidgetState extends State<NoteWidget> {
                   child: Text(
                     widget.note.content,
                     softWrap: true,
-                    maxLines: 3,
                     overflow: open ? TextOverflow.clip : TextOverflow.ellipsis,
                     style: kNoteContentTextStyle,
                   ),

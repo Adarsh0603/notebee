@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 class Label {
   final String id;
   final String label;

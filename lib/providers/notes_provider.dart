@@ -5,7 +5,6 @@ import 'package:flutter_database_sql/providers/dbhelper.dart';
 class Notes with ChangeNotifier {
   List<Note> _notesList = [];
   var allNotesList;
-  List<Note> _searchedNotesList = [];
 
   Future<void> addNote(String title, String content, String labelId) async {
     Note note = Note(
