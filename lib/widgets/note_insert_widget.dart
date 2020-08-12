@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/constants.dart';
+import 'package:flutter_database_sql/models/label.dart';
 import 'package:flutter_database_sql/models/note.dart';
 import 'package:flutter_database_sql/providers/label_provider.dart';
 import 'package:flutter_database_sql/widgets/addNoteWidgets/selected_label_widget.dart';
@@ -36,9 +37,9 @@ class _AddNoteState extends State<AddNote> {
       content = widget.note.content;
       if (labelNotChanged) labelId = widget.note.labelId;
       if (labelNotChanged) {
-        labelColor = Provider.of<Labels>(context, listen: false)
-            .findLabelById(labelId)
-            .colorValue;
+        Label foundLabel =
+            Provider.of<Labels>(context, listen: false).findLabelById(labelId);
+        labelColor = foundLabel == null ? 0x000000 : foundLabel.colorValue;
       }
     }
     return WillPopScope(
@@ -91,6 +92,7 @@ class _AddNoteState extends State<AddNote> {
                             },
                           ),
                         ),
+                        SizedBox(width: 10),
                         SelectedLabelWidget(labelColor: labelColor),
                       ],
                     ),
@@ -105,8 +107,9 @@ class _AddNoteState extends State<AddNote> {
                   children: [
                     Container(
                       height: 30,
+                      padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderRadius: BorderRadius.all(Radius.circular(4)),
                           border:
                               Border.all(width: 1, color: Colors.grey[200])),
                       width: MediaQuery.of(context).size.width * 0.4,
@@ -122,12 +125,17 @@ class _AddNoteState extends State<AddNote> {
                                 labelNotChanged = false;
                               });
                             },
-                            child: Transform.rotate(
-                              angle: 90 * pi / 180,
-                              child: Icon(
-                                Icons.label,
-                                color: Color(labels.labels[i].colorValue)
-                                    .withOpacity(1),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                              child: Transform.rotate(
+                                angle: 90 * pi / 180,
+                                child: Icon(
+                                  Icons.label,
+                                  size: 20,
+                                  color: Color(labels.labels[i].colorValue)
+                                      .withOpacity(1),
+                                ),
                               ),
                             ),
                           ),

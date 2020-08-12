@@ -10,7 +10,7 @@ class LabelWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.only(left: 16.0, right: 16.0),
       child: Row(
         children: [
           Icon(
@@ -18,14 +18,18 @@ class LabelWidget extends StatelessWidget {
             color: Color(label.colorValue).withOpacity(1),
           ),
           SizedBox(width: 10),
-          Text(label.label),
+          Text(
+            label.label.toUpperCase(),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           Spacer(),
-          FlatButton(
+          IconButton(
+              padding: EdgeInsets.all(0),
               onPressed: () async {
                 await Provider.of<Labels>(context, listen: false)
                     .deleteLabel(label.id);
               },
-              child: Text('REMOVE'))
+              icon: Icon(Icons.delete))
         ],
       ),
     );

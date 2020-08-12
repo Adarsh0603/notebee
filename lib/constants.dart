@@ -8,6 +8,6 @@ const kNoteContentTextStyle =
 const kNoteDateTextStyle = TextStyle(color: Colors.grey, fontSize: 12);
 
 const kAddNoteTitleTextStyle =
-    TextStyle(fontWeight: FontWeight.w600, fontSize: 28, color: Colors.black);
+    TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.black);
 const kAddDetailNoteDetailTextStyle =
     TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400);

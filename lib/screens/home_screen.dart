@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/providers/label_provider.dart';
 import 'package:flutter_database_sql/providers/notes_provider.dart';
+import 'package:flutter_database_sql/widgets/app_title.dart';
 import 'package:flutter_database_sql/widgets/label_settings.dart';
 import 'package:flutter_database_sql/widgets/note_insert_widget.dart';
 import 'package:flutter_database_sql/widgets/notes_display.dart';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amber,
         onPressed: () async {
           var dataMap = await showDialog<Map<String, dynamic>>(
               barrierColor: Colors.white70,
@@ -46,23 +48,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 dataMap['title'], dataMap['content'], dataMap['labelId']);
           }
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
       ),
-      appBar: AppBar(
-        title: Text('NotesApp'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.label),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => SimpleDialog(children: [LabelSettings()]),
-              );
-            },
-          )
+      body: SafeArea(
+          child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppTitle(),
+              IconButton(
+                icon: Icon(Icons.label),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                        SimpleDialog(children: [LabelSettings()]),
+                  );
+                },
+              )
+            ],
+          ),
+          Expanded(child: NotesDisplay()),
         ],
-      ),
-      body: NotesDisplay(),
+      )),
     );
   }
 }

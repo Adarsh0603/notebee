@@ -9,13 +9,15 @@ class LabelSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: AddLabel(),
+        Text(
+          'Manage Labels',
+          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
         ),
+        Divider(),
         Container(
-          height: 300,
+          height: MediaQuery.of(context).size.height * 0.3,
           child: FutureBuilder(
             future: Provider.of<Labels>(context, listen: false).getLabels(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -32,7 +34,9 @@ class LabelSettings extends StatelessWidget {
                     );
             },
           ),
-        )
+        ),
+        Divider(),
+        AddLabel(),
       ],
     );
   }
@@ -44,7 +48,9 @@ class AddLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
         controller: labelTextController,
-        decoration: InputDecoration(hintText: 'Add Label'),
+        textAlign: TextAlign.center,
+        decoration:
+            InputDecoration(hintText: 'ADD LABEL', border: InputBorder.none),
         onSubmitted: (value) async {
           await Provider.of<Labels>(context, listen: false)
               .addLabel(value, (Random().nextDouble() * 0xFFFFFF).toInt());
