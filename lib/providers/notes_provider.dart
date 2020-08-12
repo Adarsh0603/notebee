@@ -4,6 +4,8 @@ import 'package:flutter_database_sql/providers/dbhelper.dart';
 
 class Notes with ChangeNotifier {
   List<Note> _notesList = [];
+  var allNotesList;
+  List<Note> _searchedNotesList = [];
 
   Future<void> addNote(String title, String content, String labelId) async {
     Note note = Note(
@@ -47,6 +49,27 @@ class Notes with ChangeNotifier {
             content: item['content'],
             labelId: item['labelId']))
         .toList();
+    allNotesList = [..._notesList];
+    notifyListeners();
+  }
+
+  //SEARCH FUNCTIONALITY
+
+  void getAndSetSearchedNotesList(String searchTerm) {
+    _notesList = allNotesList;
+    _notesList = _notesList
+        .where((element) =>
+            element.title.contains(searchTerm) ||
+            element.content.contains(searchTerm))
+        .toList();
+    notifyListeners();
+  }
+
+  void getAndSetSearchedNotesListWithLabel(String labelId) {
+    _notesList = allNotesList;
+    if (labelId != 'all')
+      _notesList =
+          _notesList.where((element) => element.labelId == labelId).toList();
     notifyListeners();
   }
 }

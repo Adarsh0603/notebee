@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/models/label.dart';
 import 'package:flutter_database_sql/providers/label_provider.dart';
+import 'package:flutter_database_sql/providers/notes_provider.dart';
 import 'package:provider/provider.dart';
 
 class LabelWidget extends StatelessWidget {
@@ -18,9 +19,16 @@ class LabelWidget extends StatelessWidget {
             color: Color(label.colorValue).withOpacity(1),
           ),
           SizedBox(width: 10),
-          Text(
-            label.label.toUpperCase(),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          GestureDetector(
+            onTap: () {
+              Provider.of<Notes>(context, listen: false)
+                  .getAndSetSearchedNotesListWithLabel(label.id);
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              label.label.toUpperCase(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ),
           Spacer(),
           IconButton(
