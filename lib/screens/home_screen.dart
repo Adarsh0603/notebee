@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           var dataMap = await showDialog<Map<String, dynamic>>(
               barrierColor: Colors.white70,
               context: context,
-              builder: (context) {
+              builder: (ctx) {
                 return BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                   child: SimpleDialog(

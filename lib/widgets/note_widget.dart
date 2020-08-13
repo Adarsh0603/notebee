@@ -21,13 +21,19 @@ class NoteWidget extends StatefulWidget {
 
 class _NoteWidgetState extends State<NoteWidget> {
   bool open = false;
-
+  Label label;
   @override
-  Widget build(BuildContext context) {
-    Label label = widget.note.labelId != 'default'
+  void initState() {
+    // TODO: implement initState
+    label = widget.note.labelId != 'default'
         ? Provider.of<Labels>(context, listen: false)
             .findLabelById(widget.note.labelId)
         : Label('default', 'default', 0x000000);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -35,10 +41,10 @@ class _NoteWidgetState extends State<NoteWidget> {
         });
       },
       onDoubleTap: () async {
-        var dataMap = await showDialog<Map<String, dynamic>>(
+        showDialog<Map<String, dynamic>>(
             barrierColor: Colors.white70,
             context: context,
-            builder: (context) {
+            builder: (ctx) {
               return BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: SimpleDialog(
@@ -52,16 +58,6 @@ class _NoteWidgetState extends State<NoteWidget> {
                 ),
               );
             });
-        if (dataMap['title'] != widget.note.title ||
-            dataMap['content'] != widget.note.content ||
-            dataMap['labelId'] != widget.note.labelId) {
-          await Provider.of<Notes>(context, listen: false).updateNote(Note(
-            id: widget.note.id,
-            title: dataMap['title'],
-            content: dataMap['content'],
-            labelId: dataMap['labelId'],
-          ));
-        }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),

@@ -1,10 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_database_sql/constants.dart';
 import 'package:flutter_database_sql/models/label.dart';
 import 'package:flutter_database_sql/models/note.dart';
 import 'package:flutter_database_sql/providers/label_provider.dart';
+import 'package:flutter_database_sql/providers/notes_provider.dart';
 import 'package:flutter_database_sql/widgets/addNoteWidgets/selected_label_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -25,16 +25,20 @@ class _AddNoteState extends State<AddNote> {
   int labelColor = 0x000000;
   bool labelNotChanged = true;
   Future<bool> saveNote() async {
-    popWithDetails();
+    await popOnSave();
     return true;
   }
 
-  void popWithDetails() {
-    Navigator.of(context).pop({
-      'title': title == null ? 'no title' : title,
-      'content': content == null ? 'add details' : content,
-      'labelId': labelId
-    });
+  Future<void> popOnSave() async {
+    if (widget.note != null) {
+      await Provider.of<Notes>(context, listen: false).updateNote(Note(
+          title: title,
+          content: content,
+          labelId: labelId,
+          id: widget.note.id));
+    }
+    Navigator.of(context)
+        .pop({'title': title, 'content': content, 'labelId': labelId});
   }
 
   @override
@@ -66,8 +70,8 @@ class _AddNoteState extends State<AddNote> {
                       size: 20,
                       color: Colors.grey[400],
                     ),
-                    onTap: () {
-                      popWithDetails();
+                    onTap: () async {
+                      await popOnSave();
                     },
                   ),
                   SizedBox(width: 10),
@@ -156,7 +160,7 @@ class _AddNoteState extends State<AddNote> {
                   initialValue: content,
                   style: kNoteContentTextStyle,
                   maxLines:
-                      (MediaQuery.of(context).size.height * 0.013).toInt(),
+                      (MediaQuery.of(context).size.height * 0.010).toInt(),
                   decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey[300]),
@@ -172,6 +176,11 @@ class _AddNoteState extends State<AddNote> {
                   },
                 ),
               ),
+              if (widget.note != null)
+                FlatButton(
+                  child: Text('save'),
+                  onPressed: () async {},
+                )
             ],
           ),
         ),
