@@ -22,18 +22,14 @@ class NoteWidget extends StatefulWidget {
 class _NoteWidgetState extends State<NoteWidget> {
   bool open = false;
   Label label;
+
   @override
-  void initState() {
-    // TODO: implement initState
+  Widget build(BuildContext context) {
     label = widget.note.labelId != 'default'
         ? Provider.of<Labels>(context, listen: false)
             .findLabelById(widget.note.labelId)
         : Label('default', 'default', 0x000000);
-    super.initState();
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {

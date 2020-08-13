@@ -36,6 +36,7 @@ class _AddNoteState extends State<AddNote> {
           content: content,
           labelId: labelId,
           id: widget.note.id));
+      print(labelId);
     }
     Navigator.of(context)
         .pop({'title': title, 'content': content, 'labelId': labelId});

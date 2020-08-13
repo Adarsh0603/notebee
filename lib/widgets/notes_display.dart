@@ -16,32 +16,38 @@ class NotesDisplay extends StatelessWidget {
               ? Consumer<Notes>(
                   builder: (buildContext, noteData, _) {
                     return noteData.notesList.length == 0
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                  height: 48,
-                                  width: 48,
-                                  child: Image.asset('images/bee.png')),
-                              SizedBox(height: 10),
-                              Text('no notes here',
-                                  style: TextStyle(
-                                      color: Colors.grey[500],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16))
-                            ],
-                          )
+                        ? Placeholder('No notes here')
                         : ListView.builder(
                             itemCount: noteData.notesList.length,
                             itemBuilder: (context, i) =>
                                 NoteWidget(noteData.notesList[i]));
                   },
                 )
-              : Center(
-                  child: CircularProgressIndicator(),
-                );
+              : Placeholder('Getting notes...');
         },
       ),
+    );
+  }
+}
+
+class Placeholder extends StatelessWidget {
+  final String placeHolderText;
+
+  Placeholder(this.placeHolderText);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(height: 48, width: 48, child: Image.asset('images/bee.png')),
+        SizedBox(height: 10),
+        Text(placeHolderText,
+            style: TextStyle(
+                color: Colors.grey[500],
+                fontWeight: FontWeight.bold,
+                fontSize: 16))
+      ],
     );
   }
 }

@@ -14,6 +14,7 @@ class SearchBar extends StatelessWidget {
             Expanded(
               flex: 2,
               child: TextField(
+                textInputAction: TextInputAction.none,
                 decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 0, horizontal: 16.0),
