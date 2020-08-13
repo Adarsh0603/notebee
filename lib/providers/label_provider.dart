@@ -33,6 +33,7 @@ class Labels with ChangeNotifier {
   }
 
   Label findLabelById(String id) {
+//    getLabels();
     return _labelsList.firstWhere((element) => element.id == id,
         orElse: () => null);
   }

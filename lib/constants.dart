@@ -5,7 +5,7 @@ final kNoteTitleTextStyle = GoogleFonts.montserrat(
     textStyle: TextStyle(
         color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16));
 
-final kNoteContentTextStyle = GoogleFonts.montserrat(
-    textStyle: TextStyle(
-        color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 14));
-const kNoteDateTextStyle = TextStyle(color: Colors.grey, fontSize: 12);
+const kNoteContentTextStyle =
+    TextStyle(color: Colors.black54, fontWeight: FontWeight.w400, fontSize: 14);
+final kNoteDateTextStyle = GoogleFonts.montserrat(
+    textStyle: TextStyle(color: Colors.grey, fontSize: 10));

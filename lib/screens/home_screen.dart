@@ -23,13 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.delayed(Duration.zero).then((_) async {
       await Provider.of<Labels>(context, listen: false).getLabels();
     });
+    setState(() {});
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+//      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.amber,
         onPressed: () async {
@@ -46,10 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               });
-          if (dataMap['title'] != null && dataMap['content'] != null) {
+          if (dataMap['title'] == null && dataMap['content'] == null) {
+            return;
+          } else
             await Provider.of<Notes>(context, listen: false).addNote(
                 dataMap['title'], dataMap['content'], dataMap['labelId']);
-          }
         },
         child: Icon(
           Icons.add,
@@ -67,9 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icon(Icons.label),
                 onPressed: () {
                   showDialog(
+                    barrierColor: Colors.white24,
                     context: context,
-                    builder: (context) =>
-                        SimpleDialog(children: [LabelSettings()]),
+                    builder: (context) => SimpleDialog(
+                        elevation: 18,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(22))),
+                        children: [LabelSettings()]),
                   );
                 },
               )

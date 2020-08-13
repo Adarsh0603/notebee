@@ -17,13 +17,13 @@ class AppTitle extends StatelessWidget {
                     text: 'note',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.amber,
+                        color: Colors.black,
                         fontSize: 28)),
                 TextSpan(
                     text: 'bee',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.amber,
                         fontSize: 28)),
               ],
             ),

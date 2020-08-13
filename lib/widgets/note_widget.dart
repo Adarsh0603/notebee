@@ -12,9 +12,8 @@ import 'package:intl/intl.dart';
 
 class NoteWidget extends StatefulWidget {
   final Note note;
-
-  NoteWidget(this.note);
-
+  final Key key;
+  NoteWidget(this.note, this.key) : super(key: key);
   @override
   _NoteWidgetState createState() => _NoteWidgetState();
 }
@@ -24,12 +23,22 @@ class _NoteWidgetState extends State<NoteWidget> {
   Label label;
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    setLabel();
+  }
+
+  void setLabel() {
     label = widget.note.labelId != 'default'
         ? Provider.of<Labels>(context, listen: false)
             .findLabelById(widget.note.labelId)
         : Label('default', 'default', 0x000000);
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    setLabel();
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -37,7 +46,7 @@ class _NoteWidgetState extends State<NoteWidget> {
         });
       },
       onDoubleTap: () async {
-        showDialog<Map<String, dynamic>>(
+        showDialog<bool>(
             barrierColor: Colors.white70,
             context: context,
             builder: (ctx) {
@@ -56,7 +65,7 @@ class _NoteWidgetState extends State<NoteWidget> {
             });
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         child: Dismissible(
           key: ValueKey(widget.note.id),
           direction: DismissDirection.endToStart,
@@ -79,71 +88,75 @@ class _NoteWidgetState extends State<NoteWidget> {
               ),
             ),
           ),
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 0.2),
-                borderRadius: BorderRadius.all(Radius.circular(8.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(Icons.label,
-                          size: 15,
-                          color:
-                              Color(label == null ? 0x000000 : label.colorValue)
-                                  .withOpacity(1)),
-                      SizedBox(width: 8.0),
-                      Expanded(
-                        child: Text(
-                          widget.note.title,
-                          style: kNoteTitleTextStyle,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                          DateFormat('dd.MM.yyyy')
-                              .format(DateTime.parse(widget.note.id))
-                              .toString(),
-                          style: kNoteDateTextStyle),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                  child: Text(
-                    widget.note.content,
-                    softWrap: true,
-                    overflow: open ? TextOverflow.clip : TextOverflow.ellipsis,
-                    style: kNoteContentTextStyle,
-                  ),
-                ),
-                if (open) SizedBox(height: 8.0),
-                if (open) Divider(height: 1),
-                if (open)
+          child: Material(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(0))),
+            elevation: 1,
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, top: 4.0, bottom: 4.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          'Double tap to edit.',
-                          style: kNoteDateTextStyle.copyWith(
-                              color: Colors.grey[400]),
+                        Icon(Icons.label,
+                            size: 15,
+                            color: Color(
+                                    label == null ? 0x000000 : label.colorValue)
+                                .withOpacity(1)),
+                        SizedBox(width: 8.0),
+                        Expanded(
+                          child: Text(
+                            widget.note.title ?? '',
+                            style: kNoteTitleTextStyle,
+                          ),
                         ),
+                        SizedBox(width: 10),
+                        Text(
+                            DateFormat('dd.MM.yyyy')
+                                .format(DateTime.parse(widget.note.date))
+                                .toString(),
+                            style: kNoteDateTextStyle),
                       ],
                     ),
                   ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 8.0),
+                    child: Text(
+                      widget.note.content ?? '',
+                      softWrap: true,
+                      overflow:
+                          open ? TextOverflow.clip : TextOverflow.ellipsis,
+                      style: kNoteContentTextStyle,
+                    ),
+                  ),
+                  if (open) SizedBox(height: 8.0),
+                  if (open) Divider(height: 1),
+                  if (open)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, top: 4.0, bottom: 4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Double tap to edit.',
+                            style: kNoteDateTextStyle.copyWith(
+                                color: Colors.grey[400]),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),

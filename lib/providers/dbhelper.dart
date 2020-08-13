@@ -6,7 +6,7 @@ class DBHelper {
     return openDatabase(join(await getDatabasesPath(), 'notes.db'),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE notes(id TEXT PRIMARY KEY, title TEXT, content TEXT,labelId TEXT)");
+          "CREATE TABLE notes(id TEXT PRIMARY KEY, title TEXT, content TEXT,date TEXT,labelId TEXT)");
       await db.execute(
           "CREATE TABLE labels(id TEXT PRIMARY KEY, label TEXT, color INTEGER)");
     }, version: 1);

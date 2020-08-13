@@ -21,7 +21,7 @@ class _AddNoteState extends State<AddNote> {
 
   String title;
   String content;
-  String labelId = 'default';
+  String labelId;
   int labelColor = 0x000000;
   bool labelNotChanged = true;
   Future<bool> saveNote() async {
@@ -34,12 +34,13 @@ class _AddNoteState extends State<AddNote> {
       await Provider.of<Notes>(context, listen: false).updateNote(Note(
           title: title,
           content: content,
+          date: DateTime.now().toIso8601String(),
           labelId: labelId,
           id: widget.note.id));
-      print(labelId);
-    }
-    Navigator.of(context)
-        .pop({'title': title, 'content': content, 'labelId': labelId});
+      Navigator.of(context).pop(true);
+    } else
+      Navigator.of(context)
+          .pop({'title': title, 'content': content, 'labelId': labelId});
   }
 
   @override
@@ -47,8 +48,8 @@ class _AddNoteState extends State<AddNote> {
     if (widget.note != null) {
       title = widget.note.title;
       content = widget.note.content;
-      if (labelNotChanged) labelId = widget.note.labelId;
       if (labelNotChanged) {
+        labelId = widget.note.labelId;
         Label foundLabel =
             Provider.of<Labels>(context, listen: false).findLabelById(labelId);
         labelColor = foundLabel == null ? 0x000000 : foundLabel.colorValue;
@@ -109,51 +110,6 @@ class _AddNoteState extends State<AddNote> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 50,
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(4)),
-                          border:
-                              Border.all(width: 1, color: Colors.grey[200])),
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      child: Consumer<Labels>(
-                        builder: (context, labels, _) => ListView.builder(
-                          itemCount: labels.labels.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (ctx, i) => GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                labelId = labels.labels[i].id;
-                                labelColor = labels.labels[i].colorValue;
-                                labelNotChanged = false;
-                              });
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 2.0),
-                              child: Transform.rotate(
-                                angle: 90 * pi / 180,
-                                child: Icon(
-                                  Icons.label,
-                                  color: Color(labels.labels[i].colorValue)
-                                      .withOpacity(1),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
                 child: TextFormField(
                   focusNode: contentFocusNode,
@@ -161,7 +117,7 @@ class _AddNoteState extends State<AddNote> {
                   initialValue: content,
                   style: kNoteContentTextStyle,
                   maxLines:
-                      (MediaQuery.of(context).size.height * 0.010).toInt(),
+                      (MediaQuery.of(context).size.height * 0.014).toInt(),
                   decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey[300]),
@@ -177,11 +133,59 @@ class _AddNoteState extends State<AddNote> {
                   },
                 ),
               ),
-              if (widget.note != null)
-                FlatButton(
-                  child: Text('save'),
-                  onPressed: () async {},
-                )
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 50,
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border:
+                              Border.all(width: 1, color: Colors.grey[300])),
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Consumer<Labels>(
+                        builder: (context, labels, _) => labels.labels.length ==
+                                0
+                            ? Center(
+                                child: Text(
+                                'No Labels Added',
+                                style: TextStyle(color: Colors.grey),
+                              ))
+                            : ListView.builder(
+                                itemCount: labels.labels.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (ctx, i) => GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      labelId = labels.labels[i].id;
+                                      labelColor = labels.labels[i].colorValue;
+                                      labelNotChanged = false;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 2.0),
+                                    child: Transform.rotate(
+                                      angle: 90 * pi / 180,
+                                      child: Icon(
+                                        Icons.label,
+                                        color:
+                                            Color(labels.labels[i].colorValue)
+                                                .withOpacity(1),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

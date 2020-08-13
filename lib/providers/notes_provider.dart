@@ -11,6 +11,7 @@ class Notes with ChangeNotifier {
         id: DateTime.now().toIso8601String(),
         title: title,
         content: content,
+        date: DateTime.now().toIso8601String(),
         labelId: labelId);
     _notesList.add(note);
     allNotesList = [..._notesList];
@@ -32,10 +33,10 @@ class Notes with ChangeNotifier {
 
   Future<void> updateNote(Note note) async {
     int updateIndex = _notesList.indexWhere((element) => element.id == note.id);
-
     _notesList[updateIndex] = note;
-    notifyListeners();
+    allNotesList = [..._notesList];
 
+    notifyListeners();
     await DBHelper.update('notes', note.toMap());
   }
 
@@ -47,6 +48,7 @@ class Notes with ChangeNotifier {
             id: item['id'],
             title: item['title'],
             content: item['content'],
+            date: item['date'],
             labelId: item['labelId']))
         .toList();
     allNotesList = [..._notesList];
@@ -60,7 +62,8 @@ class Notes with ChangeNotifier {
     _notesList = _notesList
         .where((element) =>
             element.title.contains(searchTerm) ||
-            element.content.contains(searchTerm))
+            element.content.contains(searchTerm) ||
+            element.date.contains(searchTerm))
         .toList();
     notifyListeners();
   }

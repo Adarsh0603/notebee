@@ -14,12 +14,15 @@ class SearchBar extends StatelessWidget {
             Expanded(
               flex: 2,
               child: TextField(
-                textInputAction: TextInputAction.none,
+                textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 0, horizontal: 16.0),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintText: 'search notes',
+                    hintStyle: TextStyle(
+                        color: Colors.grey[400],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0),
                     focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(width: 1, color: Colors.grey[400]),
@@ -31,6 +34,9 @@ class SearchBar extends StatelessWidget {
                 onChanged: (value) {
                   Provider.of<Notes>(context, listen: false)
                       .getAndSetSearchedNotesList(value);
+                },
+                onSubmitted: (_) {
+                  FocusScope.of(context).unfocus();
                 },
               ),
             ),
